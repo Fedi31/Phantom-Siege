@@ -8,7 +8,7 @@ import java.util.List;
 public class Game {
     private Map map;
     private List<Enemy> enemies;
-    private List<Tower> towers;
+    private List<BasicTower> towers;
     private Economy economy;
     private int lives;
 
@@ -24,7 +24,7 @@ public class Game {
         enemies.add(enemy);
     }
 
-    public void addTower(Tower tower, Position position) {
+    public void addTower(BasicTower tower, Position position) {
         if (economy.spendCoins(tower.getCost())) {
             tower.setPosition(position);
             towers.add(tower);
@@ -53,7 +53,7 @@ public class Game {
         }
 
         // Controlla le torri e se possono attaccare i nemici
-        for (Tower tower : towers) {
+        for (BasicTower tower : towers) {
             for (Enemy enemy : enemies) {
                 if (tower.isInRange(enemy)) {
                     tower.attack(enemy);
@@ -74,7 +74,7 @@ public class Game {
         System.out.println("Coins: " + economy.getCoins());
         System.out.println("Lives: " + lives);
         
-        for (Tower tower : towers) {
+        for (BasicTower tower : towers) {
             System.out.println("Torre: " + tower.getName() + " | Posizione: " + tower.getPosition() + " | Livello: " + tower.getUpgradeLevel());
         }
         for (Enemy enemy : enemies) {
