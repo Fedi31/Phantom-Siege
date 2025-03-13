@@ -1,51 +1,61 @@
 package model;
 
-//Tower rappresenta la torre che può attaccare i nemici se si trovano nel suo raggio.
+// Classe che rappresenta una torre difensiva
 public class Tower {
-	    private String name;
-	    private Position position;
-	    private int cost;
-	    private int attackPower;
-	    private int range;
-	    private int upgradeLevel;
+    private String name;
+    private int cost;
+    private int attackPower;
+    private int range;
+    private int upgradeLevel;
+    private Position position;
 
-	    public Tower(String name, int cost, int attackPower, int range, Position position) {
-	        this.name = name;
-	        this.position = position;
-	        this.cost = cost;
-	        this.attackPower = attackPower;
-	        this.range = range;
-	        this.upgradeLevel = 1;
-	    }
+    public Tower(String name, int cost, int attackPower, int range) {
+        this.name = name;
+        this.cost = cost;
+        this.attackPower = attackPower;
+        this.range = range;
+        this.upgradeLevel = 1;
+        this.position = null;
+    }
 
-	    public void upgrade() {
-	        if (upgradeLevel < 5) {
-	            attackPower += 10; // Incremento dell'attacco
-	            range += 5; // Incremento del raggio
-	            upgradeLevel++;
-	        }
-	    }
+    public void upgrade() {
+        if (upgradeLevel < 5) {
+            attackPower += 10;
+            range += 5;
+            upgradeLevel++;
+        }
+    }
 
-	    public void attack(Enemy enemy) {
-	        if (isInRange(enemy)) {
-	            enemy.takeDamage(attackPower);
-	        }
-	    }
+    public void attack(Enemy enemy) {
+        if (isInRange(enemy)) {
+            enemy.takeDamage(attackPower);
+        }
+    }
 
-	    private boolean isInRange(Enemy enemy) {
-	        // Calcola se il nemico è all'interno del raggio della torre
-	        return true; // Logica da implementare
-	    }
+    public boolean isInRange(Enemy enemy) {
+        if (position == null || enemy.getCurrentPosition() == null) return false;
+        int dx = position.getX() - enemy.getCurrentPosition().getX();
+        int dy = position.getY() - enemy.getCurrentPosition().getY();
+        return Math.sqrt(dx * dx + dy * dy) <= range;
+    }
 
-	    public String toString() {
-	        return "Tower{" +
-	                "name='" + name + '\'' +
-	                ", position=" + position +
-	                ", cost=" + cost +
-	                ", attackPower=" + attackPower +
-	                ", range=" + range +
-	                ", upgradeLevel=" + upgradeLevel +
-	                '}';
-	    }
-	    // Getters and Setters
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCost() {
+        return cost;
+    }
+
+    public int getUpgradeLevel() {
+        return upgradeLevel;
+    }
 }
